@@ -1,18 +1,41 @@
 package zoltanszikszo.Bookstore.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String title;
     private String author;
     private int year;
     private String isbn;
-    private int price;
+    private double price;
+
+    public Book(){}
+
+    public Book(String title, String author, int year, String isbn, Double price){
+        this.title = title;
+        this.author = author;
+        this.year = year;
+        this.isbn = isbn;
+        this.price = price;
+    }
+
+    public Long getId(){ return id; }
+
+    public void setId(Long id){ this.id = id; }
 
     public String getTitle(){
         return title;
     }
 
-    public void setTitle(){
+    public void setTitle(String title){
         this.title = title;
     }
 
@@ -20,7 +43,7 @@ public class Book {
         return author;
     }
 
-    public void setAuthor(){
+    public void setAuthor(String author){
         this.author = author;
     }
 
@@ -28,23 +51,33 @@ public class Book {
         return year;
     }
 
-    public void setYear(){
-        this.year = year;
-    }
+    public void setYear(int year){ this.year = year; }
 
     public String getIsbn(){
         return isbn;
     }
 
-    public void setIsbn(){
+    public void setIsbn(String isbn){
         this.isbn = isbn;
     }
 
-    private int getPrice(){
+    public double getPrice(){
         return price;
     }
 
-    private void setPrice(){
+    public void setPrice(double price){
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", year=" + year +
+                ", price=" + price +
+                '}';
     }
 }
