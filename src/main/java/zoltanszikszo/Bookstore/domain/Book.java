@@ -1,9 +1,8 @@
 package zoltanszikszo.Bookstore.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 
 @Entity
 public class Book {
@@ -17,14 +16,28 @@ public class Book {
     private String isbn;
     private double price;
 
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    @JsonManagedReference
+    private Category category;
+
     public Book(){}
 
-    public Book(String title, String author, int year, String isbn, Double price){
+    public Book(String title, String author, int year, String isbn, Double price, Category category){
         this.title = title;
         this.author = author;
         this.year = year;
         this.isbn = isbn;
         this.price = price;
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category){
+        this.category = category;
     }
 
     public Long getId(){ return id; }
@@ -78,6 +91,7 @@ public class Book {
                 ", isbn='" + isbn + '\'' +
                 ", year=" + year +
                 ", price=" + price +
+                ", category=" + category +
                 '}';
     }
 }
