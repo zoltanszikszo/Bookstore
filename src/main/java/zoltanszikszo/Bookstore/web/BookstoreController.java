@@ -1,6 +1,7 @@
 package zoltanszikszo.Bookstore.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,14 +48,16 @@ public class BookstoreController {
         repository.save(book);
         return "redirect:booklist";
     }
-    @GetMapping("/delete/{id}")
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
         public String deleteBook(@PathVariable("id") Long bookId, Model model){
-            repository.deleteById(bookId);
-            return "redirect:../booklist";
+        repository.deleteById(bookId);
+        return "redirect:../booklist";
     }
 
-    @RequestMapping("/edit/{id}")
-    public String addBook(@PathVariable("id") Long bookId, Model model){
+    @RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+        public String addBook(@PathVariable("id") Long bookId, Model model){
         model.addAttribute("book", repository.findById(bookId));
         model.addAttribute("categories", crepository.findAll());
         return "editbook";
